@@ -69,7 +69,6 @@ const Home = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full p-2 border bg-purple-100 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-              required
             />
           </div>
           <div className="mb-6">
@@ -85,7 +84,6 @@ const Home = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-2 bg-purple-100 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-              required
             />
           </div>
           <button
