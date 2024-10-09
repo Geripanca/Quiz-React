@@ -9,7 +9,6 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Mengambil data dari akun.json, hehe
     const fetchUsers = async () => {
       const response = await fetch("/akun.json");
       const data = await response.json();
@@ -22,18 +21,18 @@ const Home = () => {
     e.preventDefault();
     setError("");
 
-    // Validasi input
     if (!username || !password) {
       setError("Username dan Password tak boleh kosong!");
       return;
     }
+
     const user = users.find(
       (user) => user.username === username && user.password === password
     );
-    //cek apakah user ada di akun.json
+
     if (user) {
       alert("Login Successful!");
-      navigate("/dashboard");
+      navigate("/dashboard", { state: { username } });
     } else {
       setError("Periksa kembali username dan password!");
     }
