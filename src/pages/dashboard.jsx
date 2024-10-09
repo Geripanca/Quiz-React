@@ -1,9 +1,23 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { username } = location.state || {};
+
+  useEffect(() => {
+    // Periksa apakah pengguna telah login
+    const storedUsername = localStorage.getItem("username"); // Ganti dengan kunci yang sesuai
+    if (!storedUsername) {
+      navigate("/"); // Arahkan pengguna ke halaman login jika belum login
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("username"); // Hapus sesi pengguna
+    navigate("/"); // Arahkan ke halaman login
+  };
 
   const cardData = [
     {
@@ -20,6 +34,7 @@ const Dashboard = () => {
       icon: "/logout-icon.svg", // URL gambar untuk Card 3
       description: "Log Out",
       link: "#",
+      onClick: handleLogout, // Panggil fungsi handleLogout saat diklik
     },
   ];
 
@@ -35,7 +50,10 @@ const Dashboard = () => {
             <a
               key={index}
               href={card.link}
-              className="bg-purple-300 p-5 rounded-lg shadow flex flex-col items-center"
+              className="bg-purple-300 hover:bg-purple-500 p-5 rounded-lg shadow flex flex-col items-center"
+              onClick={
+                card.description === "Log Out" ? handleLogout : undefined
+              } // Tambahkan logika untuk Logout
             >
               <img
                 src={card.icon}

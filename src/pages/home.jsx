@@ -10,9 +10,16 @@ const Home = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch("/akun.json");
-      const data = await response.json();
-      setUsers(data);
+      try {
+        const response = await fetch("/akun.json");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
     };
     fetchUsers();
   }, []);
@@ -26,12 +33,17 @@ const Home = () => {
       return;
     }
 
+    console.log("Username:", username);
+    console.log("Password:", password);
+    console.log("Users:", users); // Tambahkan log ini
+
     const user = users.find(
       (user) => user.username === username && user.password === password
     );
 
     if (user) {
       alert("Login Successful!");
+      localStorage.setItem("username", username); // Simpan username ke localStorage
       navigate("/dashboard", { state: { username } });
     } else {
       setError("Periksa kembali username dan password!");
@@ -57,6 +69,7 @@ const Home = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full p-2 border bg-purple-100 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              required
             />
           </div>
           <div className="mb-6">
@@ -72,6 +85,7 @@ const Home = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-2 bg-purple-100 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              required
             />
           </div>
           <button
