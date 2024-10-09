@@ -1,8 +1,16 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/home";
+
 function App() {
   return (
-    <div className="bg-black">
-      <p className="underline text-white"> Hello, World!</p>
-    </div>
+    <Router>
+      <>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </>
+    </Router>
   );
 }
 
