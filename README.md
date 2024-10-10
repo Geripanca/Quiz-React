@@ -15,7 +15,7 @@ password : password
    ```
 2. Masuk ke direktori:
    ```bash
-   cd quiz-app
+   cd Quiz-React
    ```
 3. Install Dependency :
    ```bash
