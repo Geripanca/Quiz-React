@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -28,13 +28,7 @@ const Dashboard = () => {
     {
       icon: "/test-icon.svg", // URL gambar untuk Card 2
       description: "Mulai Kerjakan Quiz",
-      link: "#",
-    },
-    {
-      icon: "/logout-icon.svg", // URL gambar untuk Card 3
-      description: "Log Out",
-      link: "#",
-      onClick: handleLogout, // Panggil fungsi handleLogout saat diklik
+      link: "/quizapp",
     },
   ];
 
@@ -47,13 +41,10 @@ const Dashboard = () => {
       <div className="container mx-auto pt-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {cardData.map((card, index) => (
-            <a
+            <Link
               key={index}
-              href={card.link}
+              to={card.link}
               className="bg-purple-300 hover:bg-purple-500 p-5 rounded-lg shadow flex flex-col items-center"
-              onClick={
-                card.description === "Log Out" ? handleLogout : undefined
-              } // Tambahkan logika untuk Logout
             >
               <img
                 src={card.icon}
@@ -61,8 +52,20 @@ const Dashboard = () => {
                 className="mb-2 h-16 w-16"
               />
               <p>{card.description}</p>
-            </a>
+            </Link>
           ))}
+          {/* Tombol Logout */}
+          <button
+            onClick={handleLogout}
+            className="bg-purple-300 hover:bg-purple-500 p-5 rounded-lg shadow flex flex-col items-center"
+          >
+            <img
+              src="/logout-icon.svg" // Ganti dengan URL gambar yang sesuai
+              alt="Log Out"
+              className="mb-2 h-16 w-16"
+            />
+            <p className="text-center">Log Out</p>
+          </button>
         </div>
       </div>
     </div>

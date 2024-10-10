@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const QuizApp = () => {
   const [questions, setQuestions] = useState([]);
@@ -8,8 +9,7 @@ const QuizApp = () => {
   const [incorrectAnswersCount, setIncorrectAnswersCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [quizFinished, setQuizFinished] = useState(false);
-  const [timer, setTimer] = useState(40);
-  const [intervalId, setIntervalId] = useState(null);
+  const [timer, setTimer] = useState(60);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,25 +19,23 @@ const QuizApp = () => {
         );
         const data = response.data.results;
 
+        // Fungsi untuk mendekode karakter HTML
+        const decodeHtml = (html) => {
+          const txt = document.createElement("textarea");
+          txt.innerHTML = html;
+          return txt.value;
+        };
+
         const formattedQuestions = data.map((questionData) => {
           const allAnswers = [
             ...questionData.incorrect_answers,
             questionData.correct_answer,
-          ];
-          const shuffledAnswers = allAnswers.sort(() => Math.random() - 0.5);
-
-          // Menghilangkan karakter HTML
-          const decodeHtml = (html) => {
-            const parser = new DOMParser();
-            const decodedString =
-              parser.parseFromString(html, "text/html").body.textContent || "";
-            return decodedString;
-          };
+          ].map(decodeHtml); // Dekode jawaban
 
           return {
-            question: decodeHtml(questionData.question),
-            answers: shuffledAnswers.map(decodeHtml), // Dekode setiap jawaban juga
-            correct_answer: decodeHtml(questionData.correct_answer),
+            question: decodeHtml(questionData.question), // Dekode pertanyaan
+            answers: allAnswers.sort(() => Math.random() - 0.5),
+            correct_answer: decodeHtml(questionData.correct_answer), // Dekode jawaban benar
           };
         });
 
@@ -51,34 +49,22 @@ const QuizApp = () => {
     fetchData();
   }, []);
 
+  // Mengatur timer
   useEffect(() => {
-    if (currentQuestionIndex < questions.length) {
-      setTimer(40);
-      const id = setInterval(() => {
-        setTimer((prevTimer) => {
-          if (prevTimer <= 1) {
-            clearInterval(id);
-            handleTimeUp();
-            return 0;
-          }
-          return prevTimer - 1;
-        });
+    let interval = null;
+
+    if (!quizFinished && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
-
-      setIntervalId(id);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [currentQuestionIndex, questions.length]);
-
-  const handleTimeUp = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
+    } else if (timer === 0) {
       setQuizFinished(true);
     }
-  };
 
+    return () => clearInterval(interval); // Hentikan interval saat komponen unmounted atau timer berhenti
+  }, [timer, quizFinished]);
+
+  // Menangani jawaban yang dipilih
   const handleAnswerClick = (selectedAnswer) => {
     const currentQuestion = questions[currentQuestionIndex];
 
@@ -93,8 +79,15 @@ const QuizApp = () => {
     } else {
       setQuizFinished(true);
     }
+  };
 
-    setTimer(40);
+  // Menangani pengulangan kuis
+  const handleRetry = () => {
+    setCorrectAnswersCount(0);
+    setIncorrectAnswersCount(0);
+    setCurrentQuestionIndex(0);
+    setQuizFinished(false);
+    setTimer(60); // Reset timer ke 5 menit
   };
 
   if (isLoading) {
@@ -115,6 +108,21 @@ const QuizApp = () => {
           <p className="text-xl text-center">
             Jumlah Soal Terjawab: {correctAnswersCount + incorrectAnswersCount}
           </p>
+          <div className="flex space-x-3 justify-center pt-2 font-bold">
+            <Link
+              to="/quizapp"
+              className="bg-purple-500 hover:bg-purple-700 p-1 rounded-sm"
+              onClick={handleRetry} // Menangani pengulangan kuis di sini
+            >
+              Retry
+            </Link>
+            <Link
+              to="/dashboard"
+              className="bg-purple-500 hover:bg-purple-700 p-1 rounded-sm"
+            >
+              Quit
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -122,14 +130,22 @@ const QuizApp = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
 
+  // Menghitung menit dan detik dari timer
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
+
   return (
     <div className="bg-purple-500 min-h-screen p-5 flex items-center">
       <div className="bg-purple-100 mx-auto p-3 w-1/3 rounded-lg">
         <div className="p-1 flex justify-between">
-          <p className="p-1 rounded-sm bg-purple-500 text-white">
-            Soal {currentQuestionIndex + 1}/{questions.length}
+          <p className="p-1 rounded-sm bg-purple-500">
+            {currentQuestionIndex + 1}/{questions.length}
           </p>
-          <p className="text-center text-red-500">{timer} detik</p>
+          <p className="text-center text-red-500">
+            {minutes < 10 ? `0${minutes}` : minutes}:
+            {seconds < 10 ? `0${seconds}` : seconds}{" "}
+            {/* Menampilkan format MM:SS */}
+          </p>
         </div>
         <h1 className="text-5xl pb-3 text-center font-bold">Quiz</h1>
         <div>

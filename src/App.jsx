@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/home";
 import Dashboard from "./pages/dashboard";
-import Quiz from "./pages/quiz";
+import QuizApp from "./pages/quiz";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
         <Routes>
-          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/quizapp" element={<QuizApp />} />
         </Routes>
       </Router>
     </>
