@@ -16,9 +16,8 @@ Quiz app using react js + tailwind css
    ```bash
    npm install
    ```
-
-````
 4. Jalankan Projek :
- ```bash
- npm start
-````
+
+```bash
+npm start
+```
