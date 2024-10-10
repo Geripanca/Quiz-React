@@ -8,5 +8,17 @@ Quiz app using react js + tailwind css
    ```bash
    git clone https://github.com/Geripanca/Quiz-React.git
    ```
-2. cd quiz-app
-3. `npm install`
+2. Masuk ke direktori:
+   ```bash
+   cd quiz-app
+   ```
+3. Install Dependency :
+   ```bash
+   npm install
+   ```
+
+````
+4. Jalankan Projek :
+ ```bash
+ npm start
+````
