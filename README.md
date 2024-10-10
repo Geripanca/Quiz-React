@@ -2,6 +2,11 @@
 
 Quiz app using react js + tailwind css
 
+Demo : https://quiz-app-eight-chi-62.vercel.app/
+
+username : admin
+password : password
+
 ## Instruksi Menginstal
 
 1. Clone repositori ini:
