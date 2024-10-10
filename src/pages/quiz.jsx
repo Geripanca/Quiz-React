@@ -97,7 +97,7 @@ const QuizApp = () => {
   if (quizFinished) {
     return (
       <div className="bg-purple-500 min-h-screen p-5 flex items-center">
-        <div className="bg-purple-100 mx-auto p-5 w-1/3 rounded-lg">
+        <div className="bg-purple-100 mx-auto p-5 w-full sm:w-1/3 rounded-lg">
           <h1 className="text-5xl pb-3 text-center font-bold">Quiz Selesai!</h1>
           <p className="text-xl text-center">
             Jumlah Jawaban Benar: {correctAnswersCount}
@@ -136,7 +136,7 @@ const QuizApp = () => {
 
   return (
     <div className="bg-purple-500 min-h-screen p-5 flex items-center">
-      <div className="bg-purple-100 mx-auto p-3 w-1/3 rounded-lg">
+      <div className="bg-purple-100 mx-auto p-3 sm:w-1/3 w-full rounded-lg">
         <div className="p-1 flex justify-between">
           <p className="p-1 rounded-sm bg-purple-500">
             {currentQuestionIndex + 1}/{questions.length}

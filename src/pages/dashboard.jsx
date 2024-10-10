@@ -23,7 +23,7 @@ const Dashboard = () => {
     {
       icon: "/book-icon.svg", // URL gambar untuk Card 1
       description: "Lihat Rules",
-      link: "#",
+      link: "/rules",
     },
     {
       icon: "/test-icon.svg", // URL gambar untuk Card 2
