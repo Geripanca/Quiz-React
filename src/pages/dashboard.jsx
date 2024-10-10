@@ -40,7 +40,7 @@ const Dashboard = () => {
 
   return (
     <div className="bg-gradient-to-r from-purple-800 to-purple-500 min-h-screen font-[Poppins] text-[#0B0B0C] p-5">
-      <div className="text-4xl font-bold">
+      <div className="text-4xl font-bold pl-2">
         Hi, Selamat Datang {username ? username : "Pengguna"}
       </div>
       {/* menu */}
