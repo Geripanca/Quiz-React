@@ -35,7 +35,7 @@ const Home = () => {
 
     console.log("Username:", username);
     console.log("Password:", password);
-    console.log("Users:", users); // Tambahkan log ini
+    console.log("Users:", users);
 
     const user = users.find(
       (user) => user.username === username && user.password === password
@@ -43,7 +43,7 @@ const Home = () => {
 
     if (user) {
       alert("Login Successful!");
-      localStorage.setItem("username", username); // Simpan username ke localStorage
+      localStorage.setItem("username", username);
       navigate("/dashboard", { state: { username } });
     } else {
       setError("Periksa kembali username dan password!");

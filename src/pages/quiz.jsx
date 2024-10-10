@@ -18,8 +18,6 @@ const QuizApp = () => {
           "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
         );
         const data = response.data.results;
-
-        // Fungsi untuk mendekode karakter HTML
         const decodeHtml = (html) => {
           const txt = document.createElement("textarea");
           txt.innerHTML = html;
@@ -30,12 +28,12 @@ const QuizApp = () => {
           const allAnswers = [
             ...questionData.incorrect_answers,
             questionData.correct_answer,
-          ].map(decodeHtml); // Dekode jawaban
+          ].map(decodeHtml);
 
           return {
-            question: decodeHtml(questionData.question), // Dekode pertanyaan
+            question: decodeHtml(questionData.question),
             answers: allAnswers.sort(() => Math.random() - 0.5),
-            correct_answer: decodeHtml(questionData.correct_answer), // Dekode jawaban benar
+            correct_answer: decodeHtml(questionData.correct_answer),
           };
         });
 
@@ -49,7 +47,6 @@ const QuizApp = () => {
     fetchData();
   }, []);
 
-  // Mengatur timer
   useEffect(() => {
     let interval = null;
 
@@ -61,10 +58,9 @@ const QuizApp = () => {
       setQuizFinished(true);
     }
 
-    return () => clearInterval(interval); // Hentikan interval saat komponen unmounted atau timer berhenti
+    return () => clearInterval(interval);
   }, [timer, quizFinished]);
 
-  // Menangani jawaban yang dipilih
   const handleAnswerClick = (selectedAnswer) => {
     const currentQuestion = questions[currentQuestionIndex];
 
@@ -81,13 +77,12 @@ const QuizApp = () => {
     }
   };
 
-  // Menangani pengulangan kuis
   const handleRetry = () => {
     setCorrectAnswersCount(0);
     setIncorrectAnswersCount(0);
     setCurrentQuestionIndex(0);
     setQuizFinished(false);
-    setTimer(60); // Reset timer ke 5 menit
+    setTimer(60);
   };
 
   if (isLoading) {
@@ -112,7 +107,7 @@ const QuizApp = () => {
             <Link
               to="/quizapp"
               className="bg-purple-500 hover:bg-purple-700 p-1 rounded-sm"
-              onClick={handleRetry} // Menangani pengulangan kuis di sini
+              onClick={handleRetry}
             >
               Retry
             </Link>
@@ -129,8 +124,6 @@ const QuizApp = () => {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
-
-  // Menghitung menit dan detik dari timer
   const minutes = Math.floor(timer / 60);
   const seconds = timer % 60;
 
@@ -144,7 +137,6 @@ const QuizApp = () => {
           <p className="text-center text-red-500">
             {minutes < 10 ? `0${minutes}` : minutes}:
             {seconds < 10 ? `0${seconds}` : seconds}{" "}
-            {/* Menampilkan format MM:SS */}
           </p>
         </div>
         <h1 className="text-5xl pb-3 text-center font-bold">Quiz</h1>

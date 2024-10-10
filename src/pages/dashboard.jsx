@@ -7,26 +7,25 @@ const Dashboard = () => {
   const { username } = location.state || {};
 
   useEffect(() => {
-    // Periksa apakah pengguna telah login
-    const storedUsername = localStorage.getItem("username"); // Ganti dengan kunci yang sesuai
+    const storedUsername = localStorage.getItem("username");
     if (!storedUsername) {
-      navigate("/"); // Arahkan pengguna ke halaman login jika belum login
+      navigate("/");
     }
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("username"); // Hapus sesi pengguna
-    navigate("/"); // Arahkan ke halaman login
+    localStorage.removeItem("username");
+    navigate("/");
   };
 
   const cardData = [
     {
-      icon: "/book-icon.svg", // URL gambar untuk Card 1
+      icon: "/book-icon.svg",
       description: "Lihat Rules",
       link: "/rules",
     },
     {
-      icon: "/test-icon.svg", // URL gambar untuk Card 2
+      icon: "/test-icon.svg",
       description: "Mulai Kerjakan Quiz",
       link: "/quizapp",
     },
@@ -37,7 +36,6 @@ const Dashboard = () => {
       <div className="text-4xl font-bold pl-2">
         Hi, Selamat Datang {username ? username : "Pengguna"}
       </div>
-      {/* menu */}
       <div className="container mx-auto pt-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {cardData.map((card, index) => (
@@ -54,13 +52,12 @@ const Dashboard = () => {
               <p>{card.description}</p>
             </Link>
           ))}
-          {/* Tombol Logout */}
           <button
             onClick={handleLogout}
             className="bg-purple-300 hover:bg-purple-500 p-5 rounded-lg shadow flex flex-col items-center"
           >
             <img
-              src="/logout-icon.svg" // Ganti dengan URL gambar yang sesuai
+              src="/logout-icon.svg"
               alt="Log Out"
               className="mb-2 h-16 w-16"
             />
